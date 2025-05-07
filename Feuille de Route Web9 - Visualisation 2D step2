@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feuille de Route Web9 - Visualisation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        .group1 { background-color: #ffcccc; } /* 1-9 */
+        .group2 { background-color: #ccffcc; } /* 11-19 */
+        .group3 { background-color: #ccccff; } /* 21-28 */
+        .group4 { background-color: #ffffcc; } /* 31-39 */
+        .group5 { background-color: #ffccff; } /* 41-49 */
+        .group6 { background-color: #ccffff; } /* 51-59 */
+        .group7 { background-color: #ffcc99; } /* 61-69 */
+    </style>
+</head>
+<body>
+    <h1>Structure 28x28 face 3D web9 similaire web3</h1>
+    <table id="structureTable">
+        <thead>
+            <tr>
+                <th>Niveau</th>
+                <!-- Les en-têtes seront générés par JavaScript -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Le contenu sera généré par JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('structureTable');
+            const thead = table.querySelector('thead tr');
+            const tbody = table.querySelector('tbody');
+
+            // Créer les en-têtes de colonnes (1-69)
+            for(let i = 1; i <= 69; i++) {
+                const th = document.createElement('th');
+                th.textContent = i;
+                thead.appendChild(th);
+            }
+
+            // Fonction pour convertir un nombre en lettre selon la structure exacte
+            function numberToLetter(num) {
+                // First 9x9: numbers 1-9
+                if (num >= 1 && num <= 9) {
+                    return num.toString();
+                }
+                // Second 9x9: letters a-z (11-36)
+                else if (num >= 11 && num <= 36) {
+                    return String.fromCharCode(96 + num - 10); // 11=a, 12=b...36=z
+                }
+                // Third 9x9: special characters
+                else if (num >= 41 && num <= 71) {
+                    const specialChars = ['!', '"', '#', '$', '%', '&', "'", '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '\\', '^', '_', '{', '¦', '}', '~', '(', ')'];
+                    const index = num - 41;
+                    if (index < specialChars.length) {
+                        return specialChars[index];
+                    }
+                }
+                return '';
+            }
+
+            // Main folders organized in 9x9 sections
+            const mainFolders = [];
+            // First 9x9: numbers 1-9
+            for(let i = 1; i <= 9; i++) mainFolders.push(i);
+            // Second 9x9: letters a-z (11-36)
+            for(let i = 11; i <= 36; i++) mainFolders.push(i);
+            // Third 9x9: special characters (41-71)
+            for(let i = 41; i <= 71; i++) mainFolders.push(i);
+
+            // Créer les lignes
+            mainFolders.forEach(folder => {
+                const tr = document.createElement('tr');
+                
+                // Determine CSS class for coloring
+                let groupClass = '';
+                if(folder <= 9) groupClass = 'group1'; // Numbers
+                else if(folder <= 36) groupClass = 'group2'; // Letters
+                else groupClass = 'group3'; // Special chars
+                tr.className = groupClass;
+
+                // Ajouter la cellule du dossier principal
+                const tdFolder = document.createElement('td');
+                tdFolder.innerHTML = `<strong>${folder}<br><small>${numberToLetter(folder)}</small></strong>`;
+                tr.appendChild(tdFolder);
+
+                // Ajouter les cellules des sous-dossiers
+                for(let i = 1; i <= 69; i++) {
+                    const td = document.createElement('td');
+                    td.innerHTML = `${folder}/${i}<br><small>${numberToLetter(folder)}/${numberToLetter(i)}</small>`;
+                    tr.appendChild(td);
+                }
+
+                tbody.appendChild(tr);
+            });
+        });
+    </script>
+</body>
+</html>
